@@ -1,0 +1,44 @@
+.register {
+    min-height: 100vh;
+}
+
+.register__form {
+    box-shadow: var(--box-shadow-color);
+    max-width: 380px;
+    margin: 2rem auto;
+    display: grid;
+    padding: 2em;
+    gap: 2em;
+}
+
+.register__input {
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.register__input > input {
+    border: none;
+    outline: none;
+    font-size: 0.925rem;
+}
+
+.register__input > button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.register__btn {
+    border: none;
+    padding: 0.5em 1.5em;
+    background-color: var(--twitter-blue);
+    font-weight: var(--medium-bold);
+    color: var(--white-color);
+    cursor: pointer;
+}
+
+.register__icon {
+    color: rgb(116, 116, 112);
+}

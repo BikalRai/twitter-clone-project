@@ -1,0 +1,73 @@
+.login {
+    min-height: 100vh;
+}
+
+.twitter__icon {
+    color: var(--twitter-blue);
+    font-size: 3rem !important;
+}
+
+.login__form {
+    display: grid;
+    gap: 2em;
+    box-shadow: var(--box-shadow-color);
+    padding: 2em;
+    max-width: 380px;
+    margin: 5rem auto;
+}
+.login__input {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.login__input > input {
+    border: none;
+    outline: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.25em 0;
+    font-size: 1rem;
+    width: 100%;
+    background-color: transparent;
+}
+
+.login__input > input::placeholder {
+    font-size: 1rem;
+}
+
+.login__button {
+    border: none;
+    padding: 0.5em;
+    width: 100%;
+    background-color: var(--twitter-blue);
+    color: var(--white-color);
+    font-weight: var(--medium-bold);
+    cursor: pointer;
+}
+
+.login__visibilityBtn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.login__inputBtn {
+    color: var(--grayish-50);
+}
+
+.login__form > span {
+    font-size: 0.875rem;
+    text-align: center;
+    color: rgba(255, 10, 20, 0.9);
+    font-weight: var(--medium-bold);
+}
+
+.form__link {
+    color: var(--twitter-blue) !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+}
+
+.form__link:hover {
+    text-decoration: underline !important;
+}

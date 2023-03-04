@@ -1,0 +1,109 @@
+.navbar__container {
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 99999;
+    display: flex;
+    justify-content: space-around;
+    backdrop-filter: blur(0.75rem);
+    padding: 0.5em 0em;
+}
+
+.navbar__icon {
+    position: absolute;
+    top: 1rem;
+    right: 1em;
+}
+
+.navbar__link {
+    background-color: transparent;
+    border: none;
+    border-radius: 2em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0.2em 0.5em;
+    gap: 0.5em;
+    font-weight: var(--medium-bold) !important;
+    text-decoration: none !important;
+    color: rgb(0, 0, 0) !important;
+}
+
+.navbar__link:hover {
+    background-color: var(--twitter-gray);
+}
+
+.navbar__linkText {
+    display: none;
+}
+
+.active {
+    font-size: 1.2rem !important;
+    font-weight: 900 !important;
+    border-radius: 0 !important;
+    border-bottom: 3px solid !important;
+    max-width: fit-content;
+    padding: 0;
+    transition: all 0.2s;
+}
+
+.navbar__userOption {
+    padding: 1.5em;
+    position: relative;
+}
+
+.navbar__account {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    gap: 1em;
+    width: max-content;
+    color: #000 !important;
+}
+
+.navbar__accountDetails {
+    display: none;
+    text-transform: lowercase;
+}
+
+@media (min-width: 600px) {
+    .navbar {
+        position: fixed;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* box-shadow: var(--box-shadow-color); */
+        gap: 2em;
+        /* max-width: 20%; */
+        min-height: 100vh;
+        padding: 1em 0;
+    }
+
+    .navbar__icon {
+        position: static;
+    }
+
+    .navbar__container {
+        position: relative;
+        width: fit-content;
+        display: grid;
+        gap: 2em;
+        box-shadow: 0 0 0 rgb(255, 255, 255);
+        height: 100%;
+        backdrop-filter: blur(0);
+    }
+}
+
+@media (min-width: 800px) {
+    .navbar__linkText {
+        display: block;
+    }
+
+    .navbar__accountDetails {
+        display: block;
+    }
+}

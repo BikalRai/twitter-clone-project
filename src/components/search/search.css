@@ -1,0 +1,27 @@
+.search {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 0.5em 1em;
+    background-color: var(--twitter-gray);
+    position: sticky;
+    top: 1rem;
+    margin: 1rem;
+    border-radius: 2em;
+    z-index: 9999;
+}
+
+.search > input {
+    outline: none;
+    border: none;
+    background-color: transparent;
+}
+
+.search > input::placeholder {
+    color: var(--grayish-30);
+    font-weight: var(--medium-bold);
+}
+
+.search__icon {
+    color: var(--grayish-30);
+}

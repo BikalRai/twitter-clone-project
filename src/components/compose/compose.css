@@ -1,0 +1,78 @@
+.compose {
+    display: none;
+    padding: 2em 2em 0;
+}
+
+.compose__avatar {
+    display: none;
+}
+
+.compose__container {
+    flex: 4;
+}
+
+.compose__box {
+    overflow: scroll !important;
+}
+.compose__box::-webkit-scrollbar {
+    display: none !important;
+}
+
+.compose__box {
+    scrollbar-width: none !important;
+}
+
+.compose__tweet {
+    width: 100%;
+    font-size: 1rem;
+    outline: none;
+    border: none;
+    resize: none;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.compose__tweet::-webkit-scrollbar {
+    display: none;
+}
+
+.compose__tweet {
+    scrollbar-width: none;
+}
+
+.compose__options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+}
+
+.compose__optionsMedia {
+    display: flex;
+    align-items: center;
+    color: var(--twitter-blue);
+}
+
+.compose__img {
+    width: 100%;
+}
+
+.compose__icons {
+    cursor: pointer;
+}
+
+.compose__btn {
+    border-radius: 1.2em !important;
+}
+
+@media (min-width: 600px) {
+    .compose {
+        display: flex;
+        padding: 2em 2em 0;
+        gap: 1em;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .compose__avatar {
+        display: inherit !important;
+    }
+}

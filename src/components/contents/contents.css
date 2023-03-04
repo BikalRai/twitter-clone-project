@@ -1,0 +1,66 @@
+.contents {
+    display: flex;
+    padding: 2em;
+    gap: 1em;
+    border-bottom: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color);
+    position: relative;
+}
+
+.contents__container {
+    display: grid;
+    gap: 1em;
+    flex: 2;
+    position: relative;
+}
+
+.contents__Options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contents__message > img {
+    width: 100%;
+    border-radius: 1em;
+    margin-top: 0.5em;
+}
+
+.contents__tweetOptions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.contents__tweetOptionsBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    background-color: transparent;
+    border: none;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: color 0.4s;
+}
+
+.contents__tweetOptionsBtn:hover {
+    font-weight: var(--medium-bold);
+}
+
+.contents__tweetOptionsIcon {
+    font-size: 1.5em;
+}
+
+.reply:hover,
+.views:hover,
+.share:hover {
+    color: var(--twitter-blue);
+}
+
+.retweet:hover {
+    color: rgba(49, 239, 68, 0.71);
+}
+
+.likes:hover {
+    color: rgba(236, 43, 175, 0.716);
+}

@@ -1,0 +1,9 @@
+.home {
+    min-height: 100vh;
+    overflow: scroll;
+    border: 1px solid var(--border-color);
+}
+
+.home::-webkit-scrollbar {
+    width: 0;
+}

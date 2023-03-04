@@ -1,0 +1,6 @@
+.showReplies__body {
+    display: grid;
+    border: 1px solid var(--border-color);
+    padding: 1em;
+    gap: 0.5em;
+}

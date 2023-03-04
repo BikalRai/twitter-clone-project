@@ -1,0 +1,38 @@
+.reply {
+    display: flex;
+    gap: 1em;
+}
+
+.reply__container {
+    flex: 2;
+}
+
+.reply__tweet {
+    width: 100%;
+    font-size: 1rem;
+    outline: none;
+    border: none;
+    resize: none;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.reply__tweet::-webkit-scrollbar {
+    display: none;
+}
+
+.reply__tweet {
+    scrollbar-width: none;
+}
+
+.reply__options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+}
+
+.reply__optionsMedia {
+    display: flex;
+    align-items: center;
+    color: var(--twitter-blue);
+}

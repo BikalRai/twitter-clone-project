@@ -1,0 +1,16 @@
+:root {
+    --box-shadow-color: 1px 2px 5px rgba(0, 0, 0, 0.47);
+    --border-color: rgba(0, 0, 0, 0.2);
+    --twitter-blue: rgb(29, 155, 240);
+    --white-color: rgb(255, 255, 255);
+    --grayish-50: rgba(0, 0, 0, 0.5);
+    --medium-bold: 600;
+    --twitter-gray: rgba(118, 118, 118, 0.2);
+    --grayish-30: rgba(0, 0, 0, 0.3);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
+}

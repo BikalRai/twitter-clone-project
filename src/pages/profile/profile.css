@@ -1,0 +1,86 @@
+.profile {
+    border-bottom: 1px solid var(--border-color);
+    padding: 1em;
+}
+
+.top,
+.bottom {
+    display: flex;
+    gap: 1em;
+}
+
+.bottom {
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile__avatar {
+    cursor: pointer;
+    height: 100px !important;
+    width: 100px !important;
+}
+
+.profile > .bottom {
+    padding: 1em;
+}
+/* .profile > .bottom > .left {
+    flex: 1;
+}
+
+.profile > .bottom > .right {
+    flex: 3;
+} */
+
+.profile > .bottom > .right > form {
+    display: grid;
+    gap: 1em;
+    padding: 1em;
+}
+
+.form__input {
+    display: grid;
+}
+
+.profile__input {
+    font-size: 1rem;
+    /* border: 0.01rem solid; */
+    outline: none;
+    padding: 0.25em 0.25em 0;
+    line-height: 2rem;
+    resize: none;
+    width: 100%;
+}
+
+.profile__input::-webkit-scrollbar {
+    display: none;
+}
+
+.profile__btn {
+    border: none;
+    background-color: var(--twitter-blue);
+    color: var(--white-color);
+    font-weight: var(--medium-bold);
+    padding: 1em;
+    cursor: pointer;
+}
+
+.profile__info {
+    padding: 1em;
+    display: grid;
+    gap: 0.5em;
+}
+
+.profile__infoFollow {
+    display: flex;
+    gap: 1em;
+}
+
+.profile__infoFollowNum {
+    font-weight: 700;
+}
+
+.profile__editBtn {
+    color: rgb(0, 0, 0) !important;
+    text-transform: capitalize !important;
+    border-color: rgb(0, 0, 0) !important;
+}

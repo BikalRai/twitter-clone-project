@@ -1,0 +1,35 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    max-width: 1400px;
+    margin: auto;
+}
+
+@media (min-width: 600px) {
+    .layout {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .layout__left {
+        flex: 1;
+        position: relative;
+    }
+
+    .layout__center {
+        flex: 3;
+        border: 1px solid var(--border-color);
+        min-height: 100vh;
+    }
+
+    .layout__right {
+        flex: 1.2;
+        display: none;
+    }
+}
+
+@media (min-width: 800px) {
+    .layout__right {
+        display: block;
+    }
+}
