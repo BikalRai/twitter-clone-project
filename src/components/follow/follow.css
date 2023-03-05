@@ -4,6 +4,7 @@
     display: grid;
     gap: 1em;
     overflow: hidden;
+    margin-bottom: 1rem;
 }
 
 .follow > h3 {

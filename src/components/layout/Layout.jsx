@@ -32,6 +32,7 @@ const Layout = ({ children }) => {
     // getting all users
     const allUsers = async () => {
         const querySnapshot = await getDocs(collection(db, 'users'));
+
         setUsers(
             querySnapshot.docs.map((doc) => {
                 return { ...doc.data() };
@@ -57,9 +58,8 @@ const Layout = ({ children }) => {
             <div className="layout__center">{children}</div>
             {currentUser && (
                 <div className="layout__right">
-                    <Search />
-                    <Trend />
                     <Follow users={users} user={user} />
+                    <Trend />
                 </div>
             )}
         </div>

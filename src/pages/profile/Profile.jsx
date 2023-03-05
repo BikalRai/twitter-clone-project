@@ -187,7 +187,7 @@ const Profile = () => {
 
     // home on click
     const handleBack = () => {
-        navigate(-1);
+        navigate('/');
     };
 
     console.log(user, 'which user');

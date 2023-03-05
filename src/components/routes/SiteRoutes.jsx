@@ -5,14 +5,18 @@ import Login from '../../pages/login/Login';
 import { AuthContext } from '../../context/authContext';
 import Home from '../../pages/home/Home';
 import Profile from '../../pages/profile/Profile';
-import { getDoc, doc } from 'firebase/firestore';
+import { getDoc, doc, getDocs, collection } from 'firebase/firestore';
 import { db } from '../../firebase';
+import Explore from '../../pages/explore/Explore';
 
 const SiteRoutes = () => {
     const { currentUser } = useContext(AuthContext);
 
     // state for userdetails
     const [user, setUser] = useState({});
+
+    // state for all users
+    const [users, setUsers] = useState([]);
 
     // geting user data
     const getUser = async () => {
@@ -26,10 +30,23 @@ const SiteRoutes = () => {
         }
     };
 
+    // getting all users
+    const allUsers = async () => {
+        const querySnapshot = await getDocs(collection(db, 'users'));
+        setUsers(
+            querySnapshot.docs.map((doc) => {
+                return { ...doc.data() };
+            })
+        );
+    };
+
     const LoggedIn = ({ children }) => {
         return currentUser ? children : <Navigate to="/login" />;
     };
 
+    useEffect(() => {
+        allUsers();
+    }, []);
     useEffect(() => {
         getUser();
     }, []);
@@ -51,6 +68,14 @@ const SiteRoutes = () => {
                     element={
                         <LoggedIn>
                             <Profile user={user} />
+                        </LoggedIn>
+                    }
+                />
+                <Route
+                    path="/explore"
+                    element={
+                        <LoggedIn>
+                            <Explore users={users} />
                         </LoggedIn>
                     }
                 />

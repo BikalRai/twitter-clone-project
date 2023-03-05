@@ -80,7 +80,11 @@ const Navbar = ({ user }) => {
                     </Typography>
                 </Tooltip>
                 <Tooltip title="Explore">
-                    <Typography component={Link} className="navbar__link">
+                    <Typography
+                        component={Link}
+                        className="navbar__link"
+                        to="/explore"
+                    >
                         <TagIcon />
                         <span className="navbar__linkText">Explore</span>
                     </Typography>

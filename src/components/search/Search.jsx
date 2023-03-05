@@ -13,8 +13,6 @@ const Search = () => {
         setSearchText(value);
     };
 
-    // function to get all users
-
     return (
         <div className="search">
             <SearchOutlinedIcon className="search__icon" />

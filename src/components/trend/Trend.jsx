@@ -25,9 +25,9 @@ const Trend = () => {
     return (
         <div className="trend">
             <h3>Trends for you</h3>
-            {trends?.map((trend) => {
+            {trends?.map((trend, i) => {
                 return (
-                    <div className="trend__content">
+                    <div className="trend__content" key={i}>
                         <p>
                             {trend?.category} - {trend?.trending && 'trending'}
                         </p>
