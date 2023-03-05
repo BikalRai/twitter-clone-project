@@ -1,4 +1,4 @@
-import { doc, getDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/authContext';
 import { db } from '../../firebase';
@@ -13,6 +13,9 @@ const Layout = ({ children }) => {
     // state for userdetails
     const [user, setUser] = useState({});
 
+    // state for all users
+    const [users, setUsers] = useState([]);
+
     // geting user data
     const getUser = async () => {
         const docRef = doc(db, 'users', currentUser.uid);
@@ -24,6 +27,20 @@ const Layout = ({ children }) => {
             console.log('No such document!');
         }
     };
+
+    // getting all users
+    const allUsers = async () => {
+        const querySnapshot = await getDocs(collection(db, 'users'));
+        setUsers(
+            querySnapshot.docs.map((doc) => {
+                return { ...doc.data() };
+            })
+        );
+    };
+
+    useEffect(() => {
+        allUsers();
+    }, []);
 
     useEffect(() => {
         getUser();
@@ -40,7 +57,7 @@ const Layout = ({ children }) => {
             {currentUser && (
                 <div className="layout__right">
                     <Search />
-                    <Follow />
+                    <Follow users={users} user={user} />
                 </div>
             )}
         </div>

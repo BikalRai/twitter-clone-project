@@ -4,11 +4,8 @@
     gap: 1em;
     padding: 0.5em 1em;
     background-color: var(--twitter-gray);
-    position: sticky;
-    top: 1rem;
     margin: 1rem;
     border-radius: 2em;
-    z-index: 9999;
 }
 
 .search > input {

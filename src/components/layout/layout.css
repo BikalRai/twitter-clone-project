@@ -25,6 +25,7 @@
     .layout__right {
         flex: 1.2;
         display: none;
+        padding: 1em;
     }
 }
 

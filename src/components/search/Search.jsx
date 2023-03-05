@@ -5,9 +5,6 @@ import { db } from '../../firebase';
 import './search.css';
 
 const Search = () => {
-    // state for all users
-    const [users, setUsers] = useState([]);
-
     //state for search
     const [searchText, setSearchText] = useState('');
 
@@ -17,19 +14,7 @@ const Search = () => {
     };
 
     // function to get all users
-    const allUsers = async () => {
-        const querySnapshot = await getDocs(collection(db, 'users'));
-        setUsers(
-            querySnapshot.docs.map((doc) => {
-                return { ...doc.data() };
-            })
-        );
-    };
-    console.log(users, 'all users');
 
-    useEffect(() => {
-        allUsers();
-    }, []);
     return (
         <div className="search">
             <SearchOutlinedIcon className="search__icon" />
