@@ -1,15 +1,31 @@
 import { Avatar } from '@mui/material';
-import React from 'react';
+import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import React, { useContext, useState } from 'react';
+import { AuthContext } from '../../context/authContext';
+import { db } from '../../firebase';
 import './follow.css';
 
 const Follow = ({ users, user }) => {
     console.log(users, 'all users in follow');
+    const { currentUser } = useContext(AuthContext);
+
+    // handle to follow
+    const handleFollow = async (details) => {
+        const userRef = doc(db, 'users', currentUser.uid);
+        await updateDoc(userRef, {
+            following: arrayUnion(details),
+        });
+    };
+
     return (
         <div className="follow">
             <h3>Who to follow</h3>
             {users
                 ?.filter((person) => {
-                    return person.displayName !== user.displayName;
+                    return person?.displayName !== user?.displayName;
+                })
+                .filter((person) => {
+                    return person?.following !== user?.following;
                 })
                 .map((user, index) => {
                     return (
@@ -19,7 +35,12 @@ const Follow = ({ users, user }) => {
                                 <p>{user?.displayName}</p>
                                 <p>{user?.username}</p>
                             </div>
-                            <button className="follow__btn">Follow</button>
+                            <button
+                                className="follow__btn"
+                                onClick={() => handleFollow(user)}
+                            >
+                                Follow
+                            </button>
                         </div>
                     );
                 })}

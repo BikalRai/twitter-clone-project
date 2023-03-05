@@ -5,6 +5,7 @@ import { db } from '../../firebase';
 import Follow from '../follow/Follow';
 import Navbar from '../navbar/Navbar';
 import Search from '../search/Search';
+import Trend from '../trend/Trend';
 import './layout.css';
 
 const Layout = ({ children }) => {
@@ -57,6 +58,7 @@ const Layout = ({ children }) => {
             {currentUser && (
                 <div className="layout__right">
                     <Search />
+                    <Trend />
                     <Follow users={users} user={user} />
                 </div>
             )}

@@ -60,7 +60,6 @@ const Register = () => {
                 displayName,
                 username,
                 email,
-                tweets,
                 following,
                 followers,
                 timeStamp: serverTimestamp(),
