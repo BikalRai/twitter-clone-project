@@ -1,15 +1,14 @@
 import React from 'react';
 import Compose from '../../components/compose/Compose';
-import ContentReplies from '../../components/contentReplies/ContentReplies';
 import Contents from '../../components/contents/Contents';
 import './home.css';
 
-const Home = ({ user }) => {
+const Home = ({ user, loading, setLoading }) => {
     return (
         <div className="home">
-            <Compose user={user} />
+            <Compose user={user} loading={loading} setLoading={setLoading} />
             {/* <ContentReplies user={user} /> */}
-            <Contents user={user} />
+            <Contents user={user} loading={loading} setLoading={setLoading} />
         </div>
     );
 };

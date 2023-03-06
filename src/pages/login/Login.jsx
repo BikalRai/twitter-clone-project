@@ -7,10 +7,10 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { AuthContext } from '../../context/authContext';
 import { auth } from '../../firebase';
 import './login.css';
-import { Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({ loading }) => {
     // state for email field and password field
     const [loginDetails, setLoginDetails] = useState({
         email: '',
@@ -71,59 +71,67 @@ const Login = () => {
     console.log(loginDetails);
 
     return (
-        <div className="login">
-            <form className="login__form" onSubmit={handleLogin}>
-                {/* logo */}
-                <TwitterIcon className="twitter__icon" />
-                {/* title */}
-                <h1 className="logo__title">Sign in to Twitter</h1>
-                {/* form inputs */}
-                <div className="login__input">
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        onChange={handleEmail}
-                        value={email}
-                    />
-                    <PersonIcon className="login__inputBtn" />
+        <>
+            {loading ? (
+                <Box sx={{ display: 'flex' }}>
+                    <CircularProgress />
+                </Box>
+            ) : (
+                <div className="login">
+                    <form className="login__form" onSubmit={handleLogin}>
+                        {/* logo */}
+                        <TwitterIcon className="twitter__icon" />
+                        {/* title */}
+                        <h1 className="logo__title">Sign in to Twitter</h1>
+                        {/* form inputs */}
+                        <div className="login__input">
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                onChange={handleEmail}
+                                value={email}
+                            />
+                            <PersonIcon className="login__inputBtn" />
+                        </div>
+                        <div className="login__input">
+                            <input
+                                type={type}
+                                placeholder="Password"
+                                onChange={handlePassword}
+                                value={password}
+                            />
+                            <button
+                                type="button"
+                                className="login__visibilityBtn"
+                                onClick={handleVisiblitiy}
+                            >
+                                {passwordHidden ? (
+                                    <VisibilityIcon className="login__inputBtn" />
+                                ) : (
+                                    <VisibilityOffIcon className="login__inputBtn" />
+                                )}
+                            </button>
+                        </div>
+                        {/* form button */}
+                        <button type="submit" className="login__button">
+                            Login
+                        </button>
+                        {error && <span>Wrong email or password</span>}
+                        {/* link to register page */}
+                        <Typography>
+                            Don't have an account?{' '}
+                            <Typography
+                                to="/register"
+                                className="form__link"
+                                component={Link}
+                            >
+                                Sign up
+                            </Typography>
+                        </Typography>
+                    </form>
                 </div>
-                <div className="login__input">
-                    <input
-                        type={type}
-                        placeholder="Password"
-                        onChange={handlePassword}
-                        value={password}
-                    />
-                    <button
-                        type="button"
-                        className="login__visibilityBtn"
-                        onClick={handleVisiblitiy}
-                    >
-                        {passwordHidden ? (
-                            <VisibilityIcon className="login__inputBtn" />
-                        ) : (
-                            <VisibilityOffIcon className="login__inputBtn" />
-                        )}
-                    </button>
-                </div>
-                {/* form button */}
-                <button type="submit" className="login__button">
-                    Login
-                </button>
-                {error && <span>Wrong email or password</span>}
-                {/* link to register page */}
-                <Typography>
-                    Don't have an account?{' '}
-                    <Typography
-                        to="/register"
-                        className="form__link"
-                        component={Link}
-                    >
-                        Sign up
-                    </Typography>
-                </Typography>
-            </form>
-        </div>
+            )}
+        </>
     );
 };
 

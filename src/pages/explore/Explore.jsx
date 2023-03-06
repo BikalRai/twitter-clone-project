@@ -5,12 +5,12 @@ import Follow from '../../components/follow/Follow';
 import './explore.css';
 import { AuthContext } from '../../context/authContext';
 
-const Explore = ({ users }) => {
+const Explore = ({ data }) => {
     const { currentUser } = useContext(AuthContext);
     return (
         <>
             <div className="explore">
-                <Follow users={users} />
+                <Follow users={data} />
             </div>
         </>
     );

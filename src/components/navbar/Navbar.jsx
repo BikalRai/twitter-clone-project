@@ -22,7 +22,7 @@ import { AuthContext } from '../../context/authContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { getDoc, doc } from 'firebase/firestore';
 
-const Navbar = ({ user }) => {
+const Navbar = ({ user, loading, setloading }) => {
     //state for menu
     const [openMenu, setOpenMenu] = useState(null);
     const open = Boolean(openMenu);

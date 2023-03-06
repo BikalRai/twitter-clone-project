@@ -1,14 +1,26 @@
 import { Avatar } from '@mui/material';
-import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
-import React, { useContext, useState } from 'react';
+import { arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/authContext';
 import { db } from '../../firebase';
 import Search from '../search/Search';
 import './follow.css';
 
-const Follow = ({ users, user }) => {
+const Follow = ({ users }) => {
     console.log(users, 'all users in follow');
+    const [user, setUser] = useState({});
     const { currentUser } = useContext(AuthContext);
+
+    const getUser = async () => {
+        const docRef = doc(db, 'users', currentUser.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            setUser(docSnap.data());
+        } else {
+            // doc.data() will be undefined in this case
+            console.log('No such document!');
+        }
+    };
 
     // handle to follow
     const handleFollow = async (details) => {
@@ -18,14 +30,18 @@ const Follow = ({ users, user }) => {
         });
     };
 
+    useEffect(() => {
+        getUser();
+    }, []);
+
+    console.log(user, 'user??');
     return (
         <>
-            <Search />
             <div className="follow">
                 <h3>Who to follow</h3>
                 {users
                     ?.filter((person) => {
-                        return person?.displayName !== user?.displayName;
+                        return person?.username !== user?.username;
                     })
                     .map((user, index) => {
                         return (

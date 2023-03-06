@@ -3,6 +3,7 @@ import {
     Avatar,
     Box,
     Button,
+    CircularProgress,
     IconButton,
     Modal,
     Tooltip,
@@ -20,11 +21,12 @@ import {
     where,
 } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import './profile.css';
 import { AuthContext } from '../../context/authContext';
 import { useNavigate } from 'react-router-dom';
+import spin from '../../assests/spin.gif';
+import './profile.css';
 
-const Profile = () => {
+const Profile = ({ loading, setLoading }) => {
     // state for img
     const [img, setImg] = useState('');
     const [imgData, setImgData] = useState({});
@@ -135,44 +137,47 @@ const Profile = () => {
 
     // geting user data
     const getUser = async () => {
+        setLoading(true);
         const docRef = doc(db, 'users', currentUser.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
             setUser(docSnap.data());
+            setLoading(false);
         } else {
             // doc.data() will be undefined in this case
             console.log('No such document!');
+            setLoading(false);
         }
     };
 
     // user all tweet posts
     const posts = async () => {
-        const q = query(
-            collection(db, 'tweets'),
-            where('uid', '==', currentUser?.uid)
-        );
+        setLoading(true);
+        try {
+            const q = query(
+                collection(db, 'tweets'),
+                where('uid', '==', currentUser?.uid)
+            );
 
-        const querySnapshot = await getDocs(q);
-        console.log(querySnapshot, 'querySNAP');
-        setAllPosts(
-            querySnapshot.docs.map((doc) => {
-                return { ...doc.data() };
-            })
-        );
-        querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, ' => ', doc.data());
-        });
+            setLoading(false);
+            const querySnapshot = await getDocs(q);
+            console.log(querySnapshot, 'querySNAP');
+            setAllPosts(
+                querySnapshot.docs.map((doc) => {
+                    return { ...doc.data() };
+                })
+            );
+        } catch (error) {
+            console.log(error.message);
+            setLoading(false);
+        }
     };
-
-    console.log(allPosts, 'ALLPOSTS');
 
     // update data
     const updateData = async (e) => {
         e.preventDefault();
         const userRef = doc(db, 'users', currentUser.uid);
 
-        // Set the "capital" field of the city 'DC'
         await updateDoc(userRef, {
             ...updateDetails,
             avatar: imgData,
@@ -199,127 +204,141 @@ const Profile = () => {
 
     useEffect(() => {
         getUser();
-        posts();
     }, []);
 
+    useEffect(() => {
+        posts();
+    }, []);
     return (
-        <div className="profile">
-            <div className="top">
-                <div className="left">
-                    <IconButton onClick={handleBack}>
-                        <ArrowBackIcon />
-                    </IconButton>
+        <>
+            {loading ? (
+                <div className="loader">
+                    <img src={spin} alt="spinning loading" />
                 </div>
-                <div className="right">
-                    <h3 className="profile__name">
-                        {user?.firstname && user?.lastname
-                            ? `${user?.firstname} ${user?.lastname}`
-                            : user?.displayName}
-                    </h3>
-                    <p>{`${allPosts?.length} tweets`}</p>
-                </div>
-            </div>
-            <div className="bottom">
-                <div className="left">
-                    <Tooltip title="Upload image">
-                        <label htmlFor="upload__avatar">
-                            <Avatar
-                                src={
-                                    img
-                                        ? URL.createObjectURL(img)
-                                        : user?.avatar?.img
-                                }
-                                className="profile__avatar"
-                                size="large"
+            ) : (
+                <div className="profile">
+                    <div className="top">
+                        <div className="left">
+                            <IconButton onClick={handleBack}>
+                                <ArrowBackIcon />
+                            </IconButton>
+                        </div>
+                        <div className="right">
+                            <h3 className="profile__name">
+                                {user?.firstname && user?.lastname
+                                    ? `${user?.firstname} ${user?.lastname}`
+                                    : user?.displayName}
+                            </h3>
+                            <p>{`${allPosts?.length} tweets`}</p>
+                        </div>
+                    </div>
+                    <div className="bottom">
+                        <div className="left">
+                            <Tooltip title="Upload image">
+                                <label htmlFor="upload__avatar">
+                                    <Avatar
+                                        src={
+                                            img
+                                                ? URL.createObjectURL(img)
+                                                : user?.avatar?.img
+                                        }
+                                        className="profile__avatar"
+                                        size="large"
+                                    />
+                                </label>
+                            </Tooltip>
+                            <input
+                                type="file"
+                                id="upload__avatar"
+                                style={{ display: 'none' }}
+                                onChange={(e) => setImg(e.target.files[0])}
                             />
-                        </label>
-                    </Tooltip>
-                    <input
-                        type="file"
-                        id="upload__avatar"
-                        style={{ display: 'none' }}
-                        onChange={(e) => setImg(e.target.files[0])}
-                    />
-                </div>
-                <div className="right">
-                    <Button
-                        className="profile__editBtn"
-                        onClick={handleOpen}
-                        variant="outlined"
-                    >
-                        Edit Profile
-                    </Button>
-                    <Modal
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box sx={style}>
-                            <form onSubmit={updateData}>
-                                <div className="form__input">
-                                    <label htmlFor="firstname">
-                                        First name:{' '}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="firstname"
-                                        className="profile__input"
-                                        placeholder="Firstname"
-                                        value={updateDetails?.firstname}
-                                        onChange={handleFirstName}
-                                    />
-                                </div>
-                                <div className="form__input">
-                                    <label htmlFor="lastname">Lastname:</label>
-                                    <input
-                                        type="text"
-                                        id="lastname"
-                                        className="profile__input"
-                                        placeholder="Lastname"
-                                        value={updateDetails?.lastname}
-                                        onChange={handleLastName}
-                                    />
-                                </div>
-                                <div className="form__input">
-                                    <label htmlFor="bio">Bio:</label>
-                                    <textarea
-                                        name="bio"
-                                        id="bio"
-                                        className="profile__input"
-                                        onChange={handleBio}
-                                        value={updateDetails?.bio}
-                                    ></textarea>
-                                </div>
+                        </div>
+                        <div className="right">
+                            <Button
+                                className="profile__editBtn"
+                                onClick={handleOpen}
+                                variant="outlined"
+                            >
+                                Edit Profile
+                            </Button>
+                            <Modal
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                            >
+                                <Box sx={style}>
+                                    <form onSubmit={updateData}>
+                                        <div className="form__input">
+                                            <label htmlFor="firstname">
+                                                First name:{' '}
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="firstname"
+                                                className="profile__input"
+                                                placeholder="Firstname"
+                                                value={updateDetails?.firstname}
+                                                onChange={handleFirstName}
+                                            />
+                                        </div>
+                                        <div className="form__input">
+                                            <label htmlFor="lastname">
+                                                Lastname:
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="lastname"
+                                                className="profile__input"
+                                                placeholder="Lastname"
+                                                value={updateDetails?.lastname}
+                                                onChange={handleLastName}
+                                            />
+                                        </div>
+                                        <div className="form__input">
+                                            <label htmlFor="bio">Bio:</label>
+                                            <textarea
+                                                name="bio"
+                                                id="bio"
+                                                className="profile__input"
+                                                onChange={handleBio}
+                                                value={updateDetails?.bio}
+                                            ></textarea>
+                                        </div>
 
-                                <button className="profile__btn">Update</button>
-                            </form>
-                        </Box>
-                    </Modal>
-                </div>
-            </div>
-            <div className="profile__info">
-                <h3>{`${user?.firstname} ${user?.lastname}`}</h3>
-                <p>{user?.username}</p>
-                <p>{user?.bio}</p>
-                <p className="profile__infoFollow">
-                    <span>
-                        {' '}
-                        <span className="profile__infoFollowNum">
-                            {user?.following?.length}
-                        </span>{' '}
-                        following
-                    </span>
+                                        <button className="profile__btn">
+                                            Update
+                                        </button>
+                                    </form>
+                                </Box>
+                            </Modal>
+                        </div>
+                    </div>
+                    <div className="profile__info">
+                        <h3>{`${user?.firstname} ${user?.lastname}`}</h3>
+                        <p>{user?.username}</p>
+                        <p>{user?.bio}</p>
+                        <p className="profile__infoFollow">
+                            <span>
+                                {' '}
+                                <span className="profile__infoFollowNum">
+                                    {user?.following?.length}
+                                </span>{' '}
+                                following
+                            </span>
 
-                    <span>
-                        <span className="profile__infoFollowNum">
-                            {user?.followers?.length}
-                        </span>{' '}
-                        followers
-                    </span>
-                </p>
-            </div>
-        </div>
+                            <span>
+                                <span className="profile__infoFollowNum">
+                                    {user?.followers?.length}
+                                </span>{' '}
+                                followers
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 

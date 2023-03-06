@@ -5,12 +5,19 @@ import Login from '../../pages/login/Login';
 import { AuthContext } from '../../context/authContext';
 import Home from '../../pages/home/Home';
 import Profile from '../../pages/profile/Profile';
-import { getDoc, doc, getDocs, collection } from 'firebase/firestore';
+import {
+    getDoc,
+    doc,
+    getDocs,
+    collection,
+    onSnapshot,
+} from 'firebase/firestore';
 import { db } from '../../firebase';
 import Explore from '../../pages/explore/Explore';
 
-const SiteRoutes = () => {
+const SiteRoutes = ({ loading, setLoading }) => {
     const { currentUser } = useContext(AuthContext);
+    console.log(currentUser, 'current user in site');
 
     // state for userdetails
     const [user, setUser] = useState({});
@@ -20,24 +27,25 @@ const SiteRoutes = () => {
 
     // geting user data
     const getUser = async () => {
-        const docRef = doc(db, 'users', currentUser.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            setUser(docSnap.data());
-        } else {
-            // doc.data() will be undefined in this case
-            console.log('No such document!');
-        }
+        setLoading(true);
+        const docRef = doc(db, 'users', currentUser?.uid);
+        await onSnapshot(docRef, (snapshot) => {
+            setUser(snapshot.data());
+            setLoading(false);
+        });
     };
 
     // getting all users
     const allUsers = async () => {
-        const querySnapshot = await getDocs(collection(db, 'users'));
-        setUsers(
-            querySnapshot.docs.map((doc) => {
-                return { ...doc.data() };
-            })
-        );
+        setLoading(true);
+        await onSnapshot(collection(db, 'users'), (snapshot) => {
+            setUsers(
+                snapshot?.docs?.map((doc) => {
+                    return { ...doc.data() };
+                })
+            );
+            setLoading(false);
+        });
     };
 
     const LoggedIn = ({ children }) => {
@@ -53,13 +61,27 @@ const SiteRoutes = () => {
     return (
         <>
             <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+                <Route
+                    path="/login"
+                    element={<Login />}
+                    loading={loading}
+                    setLoading={setLoading}
+                />
+                <Route
+                    path="/register"
+                    element={<Register />}
+                    loading={loading}
+                    setLoading={setLoading}
+                />
                 <Route
                     path="/"
                     element={
                         <LoggedIn>
-                            <Home user={user} />
+                            <Home
+                                user={user}
+                                loading={loading}
+                                setLoading={setLoading}
+                            />
                         </LoggedIn>
                     }
                 />
@@ -67,7 +89,11 @@ const SiteRoutes = () => {
                     path="/profile"
                     element={
                         <LoggedIn>
-                            <Profile user={user} />
+                            <Profile
+                                user={user}
+                                loading={loading}
+                                setLoading={setLoading}
+                            />
                         </LoggedIn>
                     }
                 />
@@ -75,7 +101,11 @@ const SiteRoutes = () => {
                     path="/explore"
                     element={
                         <LoggedIn>
-                            <Explore users={users} />
+                            <Explore
+                                users={users}
+                                loading={loading}
+                                setLoading={setLoading}
+                            />
                         </LoggedIn>
                     }
                 />
